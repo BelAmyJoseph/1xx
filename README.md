@@ -30,3 +30,9 @@ inside out project versiion 102.1
 inside out project versiion 103.0
 	-fixed enlarging navigation on header shrink
 	-added loader to application with gears
+	
+	
+inside out project version 104.0
+	- modified the ajax call to get the JSON for the menu from the me.____________.___ site
+	- modfied the menuBuilder function to accept the JSON data from WordPress REST API 
+	- romoved data/menu.json from file system considering it is no longer needed
