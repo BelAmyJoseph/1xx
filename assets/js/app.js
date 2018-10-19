@@ -20,14 +20,19 @@ function init() {
 
     $.ajax({
         method: 'GET',
-        url: 'assets/data/menu.json',
+        url: 'http://me.belfriend.com/wp-json/wp-api-menus/v2/menus/2',
         dataType: 'json',
         success: function (data) {
-
-            var menu = menuBuilder(data.menu);
-
-            $('nav').append(menu);
-			$("#loaderDiv").fadeOut("slow");
+            
+            $('nav').hide();
+            
+            var menu = menuBuilder(data.items);
+            
+            $('nav').html(menu).slideDown();
+            
+           // $('nav').append(menu);
+            
+            $("#loaderDiv").fadeOut("slow");
 
         },
         error: function () {
@@ -40,6 +45,7 @@ function init() {
 }
 
 
+
 function menuBuilder(obj) {
 
     var theMenu = '';
@@ -48,13 +54,13 @@ function menuBuilder(obj) {
 
         theMenu = theMenu + '<ul>';
 
-        obj.forEach(function (item) {
+        obj.forEach(function (item) {   
 
-            theMenu = theMenu + '<li><a href="#">' + item.MenuName + '</a>';
+            theMenu = theMenu + '<li><a href="#">' + item.title + '</a>';
 
-            if (item.Menus.length > 0) {
+            if (item.children) {
 
-                theMenu = theMenu + menuBuilder(item.Menus);
+                theMenu = theMenu + menuBuilder(item.children);
 
             }
 
