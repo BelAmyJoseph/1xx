@@ -36,13 +36,32 @@ function init() {
 			console.log('all is not good');
 		}
 	});
+
+	$.ajax({
+		method: 'GET',
+		url: 'https://me.belfriend.com/wp-json/wp-api-menus/v2/menus/3',
+		dataType: 'json',
+		success: function (data) {
+			var menu = menuBuilder(data.items, 'genLinks', 'footer-ul');
+			$('#genLinks').replaceWith(menu);
+			$('#genLinks li a').click(function () {
+				getPage($(this).data("pgid"));
+			});
+		},
+		error: function () {
+			console.log('all is not good');
+		}
+	});
+
 }
 
-
-function menuBuilder(obj) {
+function menuBuilder(obj, targetEl, classInfo) {
 	var theMenu = '';
 	if (obj.length > 0) {
-		theMenu = theMenu + '<ul>';
+		let target = (targetEl) ? ' id="' + targetEl + '"' : '';
+		let elClass = (classInfo) ? ' class="' + classInfo + '"' : '';
+		theMenu = theMenu + '<ul' + target + '' + elClass + '>';
+		console.log(theMenu + ' ' + target);
 		obj.forEach(function (item) {
 			theMenu = theMenu + '<li><a href="#" data-pgid="' + item.object_id + '">' + item.title + '</a>';
 			if (item.children) {
@@ -56,6 +75,7 @@ function menuBuilder(obj) {
 	}
 	return theMenu;
 }
+
 
 function getPage(obj) {
 	$("#loaderDiv").fadeIn("slow");
